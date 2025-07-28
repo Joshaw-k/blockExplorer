@@ -7,6 +7,15 @@ import logoEtherscan from './assets/images/logo-etherscan.svg';
 import mapImg from './assets/images/map.png';
 import Best from './assets/images/best.png';
 import Trust from './assets/images/trustblue.jpg';
+import stake9_40 from './assets/images/stake-9_40.jpg';
+import x0_20 from './assets/images/0x0_20.webp';
+import bcgames_20 from './assets/images/bcgames_20.webp';
+import coinsgame_20a from './assets/images/coinsgame_20a.webp';
+import cryptoslots from './assets/images/cryptoslots.webp';
+import cw_20 from './assets/images/cw_20.webp';
+import etoro_20 from './assets/images/etoro_20.webp';
+import moonpay_20 from './assets/images/moonpay_20.webp';
+import remittix_20 from './assets/images/remittix_20.webp';
 import Metamask from './assets/images/metamask.png';
 import Phantom from './assets/images/phantom.webp';
 import Solfare from './assets/images/solfare.png';
@@ -219,21 +228,21 @@ const sponsoredContent: Record<string, SponsoredAd[]> = {
   buy: [
     {
       id: '0x0-exchange',
-      logo: '🛡️',
+      logo: x0_20,
       title: '0x0 Exchange',
       subtitle: 'Protect your transactions. Stay invisible with 0x0.',
       description: 'Your wallet is exposed. Buy, sell, and trade with complete privacy while earning passive income.',
     },
     {
       id: 'etoro',
-      logo: '📈',
+      logo: etoro_20,
       title: 'eToro',
       subtitle: 'A global broker built for crypto trading.',
       description: 'User-friendly interface. Trusted worldwide.',
     },
     {
       id: 'moonpay',
-      logo: '🌙',
+      logo: moonpay_20,
       title: 'MoonPay',
       subtitle: 'Buy, sell and swap Ethereum with MoonPay.',
       description: 'Spend less on fees, more on crypto. Buy crypto easily with MoonPay Balance. 20M+ users trust MoonPay worldwide.',
@@ -244,7 +253,7 @@ const sponsoredContent: Record<string, SponsoredAd[]> = {
   presale: [
     {
       id: 'remittix',
-      logo: '⚡',
+      logo: remittix_20,
       title: 'Remittix',
       subtitle: 'XRP 2.0? Discover Remittix.',
       description: 'Remittix is revolutionizing global payments. $16M+ raised.',
@@ -255,7 +264,7 @@ const sponsoredContent: Record<string, SponsoredAd[]> = {
   play: [
     {
       id: 'coins-game',
-      logo: '🎰',
+      logo: coinsgame_20a,
       title: 'Coins.game',
       subtitle: '100 free spins for registration.',
       description: 'Everyday giveaways up to 100 ETH, Lucky Spins. Deposit BONUS 300% and Cashbacks!',
@@ -264,7 +273,7 @@ const sponsoredContent: Record<string, SponsoredAd[]> = {
     },
     {
       id: 'bc-game',
-      logo: '🎲',
+      logo: bcgames_20,
       title: 'BC.GAME',
       subtitle: 'The Best ETH Casino',
       description: '5000+ Slots & Live Casino Games, 50+cryptos. Register with Etherscan and get 760% deposit bonus. Win Big$, withdraw it fast.',
@@ -273,7 +282,7 @@ const sponsoredContent: Record<string, SponsoredAd[]> = {
     },
     {
       id: 'stake',
-      logo: '💰',
+      logo: stake9_40,
       title: 'Stake',
       subtitle: '200% Bonus, 100K Daily Giveaways, Instant Withdrawals',
       description: 'Slots, Roulette, Poker & more - Proud sponsors of UFC, Everton & StakeF1 team!',
@@ -284,7 +293,7 @@ const sponsoredContent: Record<string, SponsoredAd[]> = {
   gaming: [
     {
       id: 'bc-game-gaming',
-      logo: '🎲',
+      logo: bcgames_20,
       title: 'BC.GAME',
       subtitle: '- The Best ETH Casino',
       description: '5000+ Slots & Live Casino Games, 50+cryptos. Register with Etherscan and get 760% deposit bonus. Win Big$, withdraw it fast.',
@@ -293,7 +302,7 @@ const sponsoredContent: Record<string, SponsoredAd[]> = {
     },
     {
       id: 'crypto-slots',
-      logo: '💲',
+      logo: cryptoslots,
       title: 'CryptoSlots',
       subtitle: 'Play & Get 25 Free Spins at CryptoSlots',
       description: 'Anonymous play on awesome games - sign up now for 25 free jackpot spins - worth $100s!',
@@ -302,7 +311,7 @@ const sponsoredContent: Record<string, SponsoredAd[]> = {
     },
     {
       id: 'crypto-wins',
-      logo: '🎯',
+      logo: cw_20,
       title: 'CryptoWins',
       subtitle: '200% More Funds to Play on Us up to 4 BTC!',
       description: '100s of games, generous bonuses, 20+ years of trusted gaming. Join CryptoWins & start winning today!',
@@ -350,13 +359,6 @@ function App() {
           behavior: 'smooth',
           block: 'start'
         });
-
-        // Option 2: Alternative - scroll with offset from top
-        // const elementTop = targetSectionRef.current.offsetTop;
-        // window.scrollTo({
-        //   top: elementTop - 80, // 80px offset from top
-        //   behavior: 'smooth'
-        // });
       }
     };
 
@@ -373,11 +375,6 @@ function App() {
 
   const handleDropdownLeave = () => {
     setActiveDropdown(null);
-  };
-
-  const handleAction = (action: any) => {
-    console.log(`Action triggered: ${action}`);
-    // Add your specific logic here for each action
   };
 
   const data = [
@@ -2143,7 +2140,7 @@ contract Token is Context, IERC20Metadata, Ownable {
                         <div className="flex items-start gap-4">
                           {/* Logo */}
                           <div className="flex-shrink-0 w-6 h-6 text-lg bg-gray-100 rounded-lg flex items-center justify-center">
-                            {ad.logo}
+                            <img src={ad.logo} className='w-full' alt="" />
                           </div>
 
                           {/* Content */}
