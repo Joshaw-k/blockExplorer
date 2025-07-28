@@ -205,6 +205,113 @@ const contractFunctionsWrite: ContractFunction[] = [
   }
 ];
 
+interface SponsoredAd {
+  id: string;
+  logo: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  buttonText?: string;
+  buttonVariant?: 'primary' | 'secondary';
+}
+
+const sponsoredContent: Record<string, SponsoredAd[]> = {
+  buy: [
+    {
+      id: '0x0-exchange',
+      logo: '🛡️',
+      title: '0x0 Exchange',
+      subtitle: 'Protect your transactions. Stay invisible with 0x0.',
+      description: 'Your wallet is exposed. Buy, sell, and trade with complete privacy while earning passive income.',
+    },
+    {
+      id: 'etoro',
+      logo: '📈',
+      title: 'eToro',
+      subtitle: 'A global broker built for crypto trading.',
+      description: 'User-friendly interface. Trusted worldwide.',
+    },
+    {
+      id: 'moonpay',
+      logo: '🌙',
+      title: 'MoonPay',
+      subtitle: 'Buy, sell and swap Ethereum with MoonPay.',
+      description: 'Spend less on fees, more on crypto. Buy crypto easily with MoonPay Balance. 20M+ users trust MoonPay worldwide.',
+      buttonText: 'Buy Now!',
+      buttonVariant: 'secondary',
+    },
+  ],
+  presale: [
+    {
+      id: 'remittix',
+      logo: '⚡',
+      title: 'Remittix',
+      subtitle: 'XRP 2.0? Discover Remittix.',
+      description: 'Remittix is revolutionizing global payments. $16M+ raised.',
+      buttonText: 'Explore Now',
+      buttonVariant: 'secondary',
+    },
+  ],
+  play: [
+    {
+      id: 'coins-game',
+      logo: '🎰',
+      title: 'Coins.game',
+      subtitle: '100 free spins for registration.',
+      description: 'Everyday giveaways up to 100 ETH, Lucky Spins. Deposit BONUS 300% and Cashbacks!',
+      buttonText: 'Spin now!',
+      buttonVariant: 'secondary',
+    },
+    {
+      id: 'bc-game',
+      logo: '🎲',
+      title: 'BC.GAME',
+      subtitle: 'The Best ETH Casino',
+      description: '5000+ Slots & Live Casino Games, 50+cryptos. Register with Etherscan and get 760% deposit bonus. Win Big$, withdraw it fast.',
+      buttonText: 'Claim Now!',
+      buttonVariant: 'secondary',
+    },
+    {
+      id: 'stake',
+      logo: '💰',
+      title: 'Stake',
+      subtitle: '200% Bonus, 100K Daily Giveaways, Instant Withdrawals',
+      description: 'Slots, Roulette, Poker & more - Proud sponsors of UFC, Everton & StakeF1 team!',
+      buttonText: 'Play Now!',
+      buttonVariant: 'secondary',
+    },
+  ],
+  gaming: [
+    {
+      id: 'bc-game-gaming',
+      logo: '🎲',
+      title: 'BC.GAME',
+      subtitle: '- The Best ETH Casino',
+      description: '5000+ Slots & Live Casino Games, 50+cryptos. Register with Etherscan and get 760% deposit bonus. Win Big$, withdraw it fast.',
+      buttonText: 'Claim Now!',
+      buttonVariant: 'secondary',
+    },
+    {
+      id: 'crypto-slots',
+      logo: '💲',
+      title: 'CryptoSlots',
+      subtitle: 'Play & Get 25 Free Spins at CryptoSlots',
+      description: 'Anonymous play on awesome games - sign up now for 25 free jackpot spins - worth $100s!',
+      buttonText: 'Play Now',
+      buttonVariant: 'secondary',
+    },
+    {
+      id: 'crypto-wins',
+      logo: '🎯',
+      title: 'CryptoWins',
+      subtitle: '200% More Funds to Play on Us up to 4 BTC!',
+      description: '100s of games, generous bonuses, 20+ years of trusted gaming. Join CryptoWins & start winning today!',
+      buttonText: 'Claim Now!',
+      buttonVariant: 'secondary',
+    },
+  ],
+};
+
 function App() {
   const [hoveredDropdown, setHoveredDropdown] = useState<string | null>();
   const [searchValue, setSearchValue] = useState('');
@@ -881,6 +988,30 @@ function App() {
       default:
         return null;
     }
+  };
+
+  const [activeBlueTab, setActiveBlueTab] = useState<string | null>(null);
+  const [dropdownPosition, setDropdownPosition] = useState<number>(0);
+
+  const blueTabs = [
+    { id: 'buy', label: 'Buy' },
+    { id: 'presale', label: 'Presale' },
+    { id: 'play', label: 'Play' },
+    { id: 'gaming', label: 'Gaming' },
+  ];
+
+  const handleTabClick = (tabId: string, event: React.MouseEvent<HTMLButtonElement>) => {
+    const buttonElement = event.currentTarget;
+    const buttonRect = buttonElement.getBoundingClientRect();
+    const containerRect = buttonElement.parentElement?.getBoundingClientRect();
+
+    if (containerRect) {
+      if (tabId === 'play') {
+        setDropdownPosition(buttonRect.left - containerRect.left - 200);
+      } else if (tabId === "gaming") { setDropdownPosition(buttonRect.left - containerRect.left - 250) } else setDropdownPosition(buttonRect.left - containerRect.left - 100);
+    }
+
+    setActiveBlueTab(activeBlueTab === tabId ? null : tabId);
   };
 
   const sampleByteCode = `60806040526000600660006101000a81548160ff0219169083151502179055503480156200002c57600080fd5b506200004d620000416200025260201b60201c565b6200025a60201b60201c565b6040518060400160405280600681526020017f536f6c617879
@@ -1576,7 +1707,7 @@ contract Token is Context, IERC20Metadata, Ownable {
 
       {/* Header */}
       <header className="bg-white border-b border-gray-200">
-        <div className={`"max-w-[86rem] mx-auto px-4 py-2`}>
+        <div className={`max-w-[86rem] mx-auto px-4 py-2`}>
           <div className="flex items-center justify-between mb-0 ">
             {/* Logo */}
             <div className="flex items-center">
@@ -1586,7 +1717,7 @@ contract Token is Context, IERC20Metadata, Ownable {
             {/* Mobile Menu Button */}
             <button
               onClick={toggleMobileMenu}
-              className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              className="lg:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -1973,19 +2104,117 @@ contract Token is Context, IERC20Metadata, Ownable {
               </div>
             </div>
 
-            <div className="flex space-x-2">
-              <button className="px-2 py-1.5 bg-[#0584C3] text-xs text-white rounded-md flex items-center">
-                Buy <ChevronDown className="w-4 h-4 ml-1" />
-              </button>
-              <button className="px-2 py-1.5 bg-[#0584C3] text-xs text-white rounded-md flex items-center">
-                Presale <ChevronDown className="w-4 h-4 ml-1" />
-              </button>
-              <button className="px-2 py-1.5 bg-[#0584C3] text-xs text-white rounded-md flex items-center">
-                Play <ChevronDown className="w-4 h-4 ml-1" />
-              </button>
-              <button className="px-2 py-1.5 bg-[#0584C3] text-xs text-white rounded-md flex items-center">
-                Gaming <ChevronDown className="w-4 h-4 ml-1" />
-              </button>
+            <div className="flex space-x-2 relative">
+              {blueTabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={(e) => handleTabClick(tab.id, e)}
+                  className={`
+              px-2 py-1.5 bg-[#0584C3] text-xs text-white rounded-md flex items-center
+              ${activeTab === tab.id
+                      ? 'bg-[#2e82ad]'
+                      : 'bg-[#0584C3] hover:bg-[#2e82ad]'
+                    }
+            `}
+                >
+                  {tab.label}
+                  <ChevronDown
+
+                    className={`transition-transform w-4 h-4 ml-1 ${activeBlueTab === tab.id ? 'rotate-180' : ''}`}
+                  />
+                </button>
+              ))}
+              {activeBlueTab && (
+                <>
+                  <div
+                    className="md:hidden top-10 bg-white left-0 rounded-xl shadow-lg border text-xs border-gray-200 absolute z-10"
+                  >
+                    <div className="absolute top-4 right-4 text-xs text-gray-500">
+                      Sponsored
+                    </div>
+                    {sponsoredContent[activeBlueTab]?.map((ad, index) => (
+                      <div
+                        key={ad.id}
+                        className={`p-3 relative ${index !== sponsoredContent[activeBlueTab].length - 1 ? 'border-b border-gray-100' : ''}`}
+                      >
+                        {/* Sponsored Label */}
+
+
+                        <div className="flex items-start gap-4">
+                          {/* Logo */}
+                          <div className="flex-shrink-0 w-6 h-6 text-lg bg-gray-100 rounded-lg flex items-center justify-center">
+                            {ad.logo}
+                          </div>
+
+                          {/* Content */}
+                          <div className="flex-1">
+                            <h3 className="text-sm font-bold text-gray-900 mb-2">
+                              {ad.title}
+                            </h3>
+
+                            <p className="text-blue-600 font-medium mb-3">
+                              {ad.subtitle}
+                              {ad.buttonText && (
+                                <a className="px-2 py-1 ml-1 bg-blue-100 text-blue-600 rounded-full text-[0.6rem] font-medium hover:bg-blue-200 transition-colors">
+                                  {ad.buttonText}
+                                </a>
+                              )}
+                            </p>
+
+                            <p className="text-gray-700 leading-relaxed">
+                              {ad.description}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div
+                    className="hidden md:block w-80 top-10 bg-white rounded-xl shadow-lg border text-xs border-gray-200 absolute z-10"
+                    style={{ left: `${dropdownPosition}px` }}
+                  >
+                    <div className="absolute top-4 right-4 text-xs text-gray-500">
+                      Sponsored
+                    </div>
+                    {sponsoredContent[activeBlueTab]?.map((ad, index) => (
+                      <div
+                        key={ad.id}
+                        className={`p-3 relative ${index !== sponsoredContent[activeBlueTab].length - 1 ? 'border-b border-gray-100' : ''}`}
+                      >
+                        {/* Sponsored Label */}
+
+
+                        <div className="flex items-start gap-4">
+                          {/* Logo */}
+                          <div className="flex-shrink-0 w-6 h-6 text-lg bg-gray-100 rounded-lg flex items-center justify-center">
+                            {ad.logo}
+                          </div>
+
+                          {/* Content */}
+                          <div className="flex-1">
+                            <h3 className="text-sm font-bold text-gray-900 mb-2">
+                              {ad.title}
+                            </h3>
+
+                            <p className="text-blue-600 font-medium mb-3">
+                              {ad.subtitle}
+                              {ad.buttonText && (
+                                <a className="px-2 py-1 ml-1 bg-blue-100 text-blue-600 rounded-full text-[0.6rem] font-medium hover:bg-blue-200 transition-colors">
+                                  {ad.buttonText}
+                                </a>
+                              )}
+                            </p>
+
+                            <p className="text-gray-700 leading-relaxed">
+                              {ad.description}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
