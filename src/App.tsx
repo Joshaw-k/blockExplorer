@@ -1714,9 +1714,18 @@ contract Token is Context, IERC20Metadata, Ownable {
             {/* Mobile Menu Button */}
             <button
               onClick={toggleMobileMenu}
-              className="lg:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              className="lg:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all duration-200"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              <div className="relative w-6 h-6">
+                <Menu
+                  className={`w-6 h-6 absolute inset-0 transition-all duration-300 ${mobileMenuOpen ? 'opacity-0 rotate-90' : 'opacity-100 rotate-0'
+                    }`}
+                />
+                <X
+                  className={`w-6 h-6 absolute inset-0 transition-all duration-300 ${mobileMenuOpen ? 'opacity-100 rotate-0' : 'opacity-0 -rotate-90'
+                    }`}
+                />
+              </div>
             </button>
 
             {/* Navigation */}
@@ -1989,96 +1998,100 @@ contract Token is Context, IERC20Metadata, Ownable {
           </div>
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <div className="pb-4">
-              <div className="pt-4 space-y-1">
-                <a
-                  href="#"
-                  className="block px-3 py-2 text-gray-900 font-medium hover:text-gray-700 hover:bg-gray-50 rounded-md"
-                >
-                  Home
-                </a>
+            <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
+              }`}>
+              <div className="pb-4">
+                <div className="pt-4 space-y-1">
+                  <a
+                    href="#"
+                    className="block px-3 py-2 text-gray-900 font-medium hover:text-gray-700 hover:bg-gray-50 rounded-md"
+                  >
+                    Home
+                  </a>
 
-                {/* Mobile Dropdowns */}
-                {['Blockchain', 'Tokens', 'NFTs', 'Resources', 'Developers', 'More'].map((item) => (
-                  <div key={item}>
-                    <button
-                      onClick={() => handleMobileDropdownClick(item)}
-                      className={`w-full flex items-center justify-between px-3 py-2 text-left font-medium hover:bg-gray-50 rounded-md ${item === 'Tokens' ? 'text-[#0584C3]' : 'text-gray-900'
-                        }`}
-                    >
-                      <span>{item}</span>
-                      <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === item ? 'rotate-180' : ''
-                        }`} />
-                    </button>
+                  {/* Mobile Dropdowns */}
+                  {['Blockchain', 'Tokens', 'NFTs', 'Resources', 'Developers', 'More'].map((item) => (
+                    <div key={item}>
+                      <button
+                        onClick={() => handleMobileDropdownClick(item)}
+                        className={`w-full flex items-center justify-between px-3 py-2 text-left font-medium hover:bg-gray-50 rounded-md ${item === 'Tokens' ? 'text-[#0584C3]' : 'text-gray-900'
+                          }`}
+                      >
+                        <span>{item}</span>
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === item ? 'rotate-180' : ''
+                          }`} />
+                      </button>
 
-                    {activeDropdown === item && (
-                      <div className="ml-4 mt-2 space-y-2">
-                        {item === 'Tokens' && (
-                          <>
-                            <a href="https://etherscan.io/tokens" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">
-                              Top Tokens <span className="text-gray-500">(ERC-20)</span>
-                            </a>
-                            <a href="https://etherscan.io/tokentxns" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">
-                              Token Transfers <span className="text-gray-500">(ERC-20)</span>
-                            </a>
-                            <a href="https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7#balances#flow" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">
-                              Token Flow Visualizer <span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded ml-2">Beta</span>
-                            </a>
-                          </>
-                        )}
+                      {activeDropdown === item && (
+                        <div className="ml-4 mt-2 space-y-2">
+                          {item === 'Tokens' && (
+                            <>
+                              <a href="https://etherscan.io/tokens" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">
+                                Top Tokens <span className="text-gray-500">(ERC-20)</span>
+                              </a>
+                              <a href="https://etherscan.io/tokentxns" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">
+                                Token Transfers <span className="text-gray-500">(ERC-20)</span>
+                              </a>
+                              <a href="https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7#balances#flow" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">
+                                Token Flow Visualizer <span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded ml-2">Beta</span>
+                              </a>
+                            </>
+                          )}
 
-                        {item === 'Blockchain' && (
-                          <>
-                            <a href="https://etherscan.io/txs" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Transactions</a>
-                            <a href="https://etherscan.io/txsPending" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Pending Transactions</a>
-                            <a href="https://etherscan.io/txsBeaconDeposit" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Beacon Transactions</a>
-                            <a href="https://etherscan.io/blocks" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">View Blocks</a>
-                            <a href="https://etherscan.io/txsBlobs" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">View Blobs</a>
-                          </>
-                        )}
+                          {item === 'Blockchain' && (
+                            <>
+                              <a href="https://etherscan.io/txs" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Transactions</a>
+                              <a href="https://etherscan.io/txsPending" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Pending Transactions</a>
+                              <a href="https://etherscan.io/txsBeaconDeposit" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Beacon Transactions</a>
+                              <a href="https://etherscan.io/blocks" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">View Blocks</a>
+                              <a href="https://etherscan.io/txsBlobs" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">View Blobs</a>
+                            </>
+                          )}
 
-                        {item === 'NFTs' && (
-                          <>
-                            <a href="https://etherscan.io/nft-top-contracts" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Top NFTs</a>
-                            <a href="https://etherscan.io/nft-top-mints" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Top Mints</a>
-                            <a href="https://etherscan.io/nft-trades" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Latest Trades</a>
-                            <a href="https://etherscan.io/nft-transfers" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Latest Transfers</a>
-                            <a href="https://etherscan.io/nft-latest-mints" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Latest Mints</a>
-                          </>
-                        )}
+                          {item === 'NFTs' && (
+                            <>
+                              <a href="https://etherscan.io/nft-top-contracts" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Top NFTs</a>
+                              <a href="https://etherscan.io/nft-top-mints" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Top Mints</a>
+                              <a href="https://etherscan.io/nft-trades" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Latest Trades</a>
+                              <a href="https://etherscan.io/nft-transfers" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Latest Transfers</a>
+                              <a href="https://etherscan.io/nft-latest-mints" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Latest Mints</a>
+                            </>
+                          )}
 
-                        {item === 'Resources' && (
-                          <>
-                            <a href="https://etherscan.io/charts" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Charts & Stats</a>
-                            <a href="https://etherscan.io/topstat" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Top Statistics</a>
-                            <a href="https://etherscan.io/leaderboard" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Leaderboard</a>
-                            <a href="https://etherscan.io/directory" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Directory</a>
-                            <a href="https://info.etherscan.com/newsletters/" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Newsletter</a>
-                          </>
-                        )}
+                          {item === 'Resources' && (
+                            <>
+                              <a href="https://etherscan.io/charts" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Charts & Stats</a>
+                              <a href="https://etherscan.io/topstat" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Top Statistics</a>
+                              <a href="https://etherscan.io/leaderboard" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Leaderboard</a>
+                              <a href="https://etherscan.io/directory" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Directory</a>
+                              <a href="https://info.etherscan.com/newsletters/" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Newsletter</a>
+                            </>
+                          )}
 
-                        {item === 'Developers' && (
-                          <>
-                            <a href="https://etherscan.io/apis" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">API Plans</a>
-                            <a href="https://docs.etherscan.io/" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">API Documentation</a>
-                            <a href="https://etherscan.io/verifyContract" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Verify Contracts</a>
-                          </>
-                        )}
+                          {item === 'Developers' && (
+                            <>
+                              <a href="https://etherscan.io/apis" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">API Plans</a>
+                              <a href="https://docs.etherscan.io/" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">API Documentation</a>
+                              <a href="https://etherscan.io/verifyContract" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Verify Contracts</a>
+                            </>
+                          )}
 
-                        {item === 'More' && (
-                          <>
-                            <a href="https://etherscan.io/tokenapprovalchecker" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Token Approvals</a>
-                            <a href="https://etherscan.io/verifiedSignatures" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Verified Signatures</a>
-                            <a href="https://etherscan.io/gastracker" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Gas Tracker</a>
-                            <a href="https://etherscan.io/nodetracker" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Node Tracker</a>
-                          </>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                          {item === 'More' && (
+                            <>
+                              <a href="https://etherscan.io/tokenapprovalchecker" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Token Approvals</a>
+                              <a href="https://etherscan.io/verifiedSignatures" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Verified Signatures</a>
+                              <a href="https://etherscan.io/gastracker" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Gas Tracker</a>
+                              <a href="https://etherscan.io/nodetracker" className="block px-3 py-2 text-sm text-gray-700 hover:text-[#0584C3] hover:bg-gray-50 rounded-md">Node Tracker</a>
+                            </>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
+
           )}
         </div>
       </header>
